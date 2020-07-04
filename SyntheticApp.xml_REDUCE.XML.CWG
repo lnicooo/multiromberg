@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<APPLICATION_PARTITIONING>
+  <RESULTS total_cost="280.561" status="ok" />
+  <SIZE lines="3" columns="3" height="1" />
+  <PROCESSOR_TYPE type="XTensa">
+    <CLUSTER name="P7" load="1121" power="0.2">T6</CLUSTER>
+    <CLUSTER name="P5" load="349" power="0.2">T8</CLUSTER>
+    <CLUSTER name="P3" load="2405" power="0.2">T1</CLUSTER>
+    <CLUSTER name="P6" load="593" power="0.2">T7</CLUSTER>
+    <CLUSTER name="P1" load="1124" power="0.2">T3</CLUSTER>
+    <CLUSTER name="P8" load="2938" power="0.2">T5</CLUSTER>
+    <CLUSTER name="P9" load="2007" power="0.2">T4</CLUSTER>
+    <CLUSTER name="P2" load="730" power="0.2">T2</CLUSTER>
+    <CLUSTER name="P4" load="2516" power="0.2">T0</CLUSTER>
+  </PROCESSOR_TYPE>
+  <COMMUNICATION_LIST>
+    <SOURCE_CLUSTER source="P7">
+      <COMMUNICATION target="P9" volume="431" />
+      <COMMUNICATION target="P1" volume="690" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P5">
+      <COMMUNICATION target="P1" volume="349" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P3">
+      <COMMUNICATION target="P2" volume="573" />
+      <COMMUNICATION target="P4" volume="385" />
+      <COMMUNICATION target="P8" volume="761" />
+      <COMMUNICATION target="P1" volume="686" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P6">
+      <COMMUNICATION target="P3" volume="593" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P1">
+      <COMMUNICATION target="P6" volume="582" />
+      <COMMUNICATION target="P7" volume="542" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P8">
+      <COMMUNICATION target="P6" volume="493" />
+      <COMMUNICATION target="P5" volume="462" />
+      <COMMUNICATION target="P2" volume="336" />
+      <COMMUNICATION target="P3" volume="281" />
+      <COMMUNICATION target="P4" volume="433" />
+      <COMMUNICATION target="P9" volume="933" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P9">
+      <COMMUNICATION target="P5" volume="565" />
+      <COMMUNICATION target="P6" volume="405" />
+      <COMMUNICATION target="P4" volume="322" />
+      <COMMUNICATION target="P8" volume="715" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P2">
+      <COMMUNICATION target="P5" volume="324" />
+      <COMMUNICATION target="P9" volume="406" />
+    </SOURCE_CLUSTER>
+    <SOURCE_CLUSTER source="P4">
+      <COMMUNICATION target="P5" volume="575" />
+      <COMMUNICATION target="P6" volume="474" />
+      <COMMUNICATION target="P8" volume="671" />
+      <COMMUNICATION target="P7" volume="440" />
+      <COMMUNICATION target="P9" volume="356" />
+    </SOURCE_CLUSTER>
+  </COMMUNICATION_LIST>
+</APPLICATION_PARTITIONING>
+

@@ -1,0 +1,34 @@
+#_NoC_Size (lines columns height)
+ 3 3
+
+#_CWG_Vertices (list of: vertices)
+ P7 P5 P3 P6 P1 P8 P9 P2 P4
+
+#_CWG_Edges (list of: sourceVertex - targetVertex numberOfPhitsTransmited)
+ P7 - P9 431
+ P7 - P1 690
+ P5 - P1 349
+ P3 - P2 573
+ P3 - P4 385
+ P3 - P8 761
+ P3 - P1 686
+ P6 - P3 593
+ P1 - P6 582
+ P1 - P7 542
+ P8 - P6 493
+ P8 - P5 462
+ P8 - P2 336
+ P8 - P3 281
+ P8 - P4 433
+ P8 - P9 933
+ P9 - P5 565
+ P9 - P6 405
+ P9 - P4 322
+ P9 - P8 715
+ P2 - P5 324
+ P2 - P9 406
+ P4 - P5 575
+ P4 - P6 474
+ P4 - P8 671
+ P4 - P7 440
+ P4 - P9 356
