@@ -41,10 +41,17 @@ def romberg(f,a,b,eps,nmax):
         for k in range(0,i):
             n        = k + 2
             Q[i,k+1] = 1.0/(4**(n-1)-1)*(4**(n-1)*Q[i,k] - Q[i-1,k])
+            print(Q[i-1,k-1])
+        """
         if (i > 0) and (abs(Q[i,k+1] - Q[i,k]) < eps):
             if (abs(Q[i,k+1] - Q[i,k]) < eps):
                converged = 1
                break
+        
+        for k in range(0,i):
+          print("%.4f"%Q[i,k],end =" ")  
+        print()
+        """
     for i in range(nmax):
       for k in range(i):
         print("%.4f"%Q[i,k],end =" ")  

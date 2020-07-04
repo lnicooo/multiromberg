@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from scipy import integrate
 from threading import Thread, Lock
 from scipy import integrate
+import time
 
 
 mutex = Lock()
@@ -17,13 +18,14 @@ class Romberg:
     self.b = b
     self.eps = eps
     self.nmax = nmax
+    self.comunication = [0]*self.nmax
 
   # trapezoidal rule
   def trapezoid(self,N):
 
-    f = self.f
     a = self.a
     b = self.b
+    f = self.f
 
     h   = (b-a)/N
     xi  = np.linspace(a,b,N+1)
@@ -50,7 +52,7 @@ class Romberg:
       q = 1.0/(4**(k)-1) * (4**(k) *(Q_act - Q_lst))
 
     
-    print("k:%d q:%f i:%d"%(k,q,i))
+    #print("k:%d q:%f i:%d"%(k,q,i))
 
     mutex.acquire()
     Q[k] = q
@@ -69,11 +71,19 @@ class Romberg:
         thread = Thread(target = self.romberg_thread, 
             args = (Q[i],Q[i,k-1],Q[i-1,k-1],i,k))
         
+        #3 floats a,b,Q[i-1,k-1] 2 integers i,k
+        self.comunication[k] += (3*32)+(2*28)
+
         thread.start()
+        time.sleep(0.01)
         #print("Thread[%d][%d]inited"%(i,k))
         #print("Value Q[%d][%d]:%f sended"%(i,k,Q[i-1,k]))
         threads.append(thread)
-
+      """
+      for k in range(0,i):
+        print("%.4f"%Q[i,k],end =" ")  
+      print()
+      """
       for thread in threads:
         thread.join()
     
@@ -81,13 +91,16 @@ class Romberg:
       for k in range(i):
         print("%.4f"%Q[i,k],end =" ")  
       print()
-        
+       
     #print (Q[-2,0]) 
-
+  def comunication_size(self):
+    for i in range(len(self.comunication)):
+      print("PE[%d]: %d bytes"%(i,self.comunication[i]))
 
 if __name__ == '__main__':
   # main program
   a  = 0.0;b = 1.0  # integration interval [a,b]
   R = Romberg(gaussian,a,b,1.0e-12,10)
   R.run()
+  R.comunication_size()
   integrate.romberg(gaussian, a, b, show=True)
