@@ -72,7 +72,7 @@ class Romberg:
             args = (Q[i],Q[i,k-1],Q[i-1,k-1],i,k))
         
         #3 floats a,b,Q[i-1,k-1] 2 integers i,k
-        self.comunication[k] += (3*32)+(2*28)
+        self.comunication[k] += ((3*32)+(2*28))*8
 
         thread.start()
         time.sleep(0.01)
@@ -95,7 +95,7 @@ class Romberg:
     #print (Q[-2,0]) 
   def comunication_size(self):
     for i in range(len(self.comunication)):
-      print("PE[%d]: %d bytes"%(i,self.comunication[i]))
+      print("PE[%d]: %d bytes"%(i+1,self.comunication[i]))
 
 if __name__ == '__main__':
   # main program
