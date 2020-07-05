@@ -72,21 +72,21 @@ class Romberg:
             args = (Q[i],Q[i,k-1],Q[i-1,k-1],i,k))
         
         #3 floats a,b,Q[i-1,k-1] 2 integers i,k
-        self.comunication[k] += ((3*32)+(2*28))*8
+        self.comunication[k] += ((3*32)+(2*32))
 
         thread.start()
-        time.sleep(0.01)
+        thread.join()
         #print("Thread[%d][%d]inited"%(i,k))
         #print("Value Q[%d][%d]:%f sended"%(i,k,Q[i-1,k]))
-        threads.append(thread)
+        
       """
       for k in range(0,i):
         print("%.4f"%Q[i,k],end =" ")  
       print()
-      """
+      
       for thread in threads:
         thread.join()
-    
+      """
     for i in range(self.nmax):
       for k in range(i):
         print("%.4f"%Q[i,k],end =" ")  
