@@ -40,23 +40,21 @@ class Romberg:
   def romberg_thread(self,Q,Q_act,Q_lst,i,k):
 
     #print(Q_lst)
-
-    if(k==0):
-
-      N = 2**i
-      q = self.trapezoid(N)
+    
+    if(k>0):
+      q = 1.0/(4**(k)-1) * (4**(k) *Q_act - Q_lst)      
+      print("n:%d Q[i]:%f Q[-1]:%f i:%d k:%d"%(k,Q_act, Q_lst,i,k))
       
     else:
-
-      #m = (k + 2)-1
-      q = 1.0/(4**(k)-1) * (4**(k) *(Q_act - Q_lst))
-
+      N = 2**(i)
+      q = self.trapezoid(N)
+      print("i:%d k:%d q:%f"%(i,k,q))
     
-    #print("k:%d q:%f i:%d"%(k,q,i))
-
     mutex.acquire()
     Q[k] = q
-    mutex.release()
+    mutex.release()           
+    
+    #print("k:%d q:%f i:%d"%(k,q,i))  
   
   def run(self):
 
@@ -66,11 +64,14 @@ class Romberg:
 
       threads=[]
 
-      for k in range(0,i):
-        
-        thread = Thread(target = self.romberg_thread, 
-            args = (Q[i],Q[i,k-1],Q[i-1,k-1],i,k))
-        
+      for k in range(0,i+1):
+        if(k>0):
+          thread = Thread(target = self.romberg_thread, 
+              args = (Q[i],Q[i,k-1],Q[i-1,k-1],i,k))
+        else:
+          thread = Thread(target = self.romberg_thread, 
+              args = (Q[i],0,0,i,0))
+
         #3 floats a,b,Q[i-1,k-1] 2 integers i,k
         self.comunication[k] += ((3*32)+(2*32))
 
@@ -79,20 +80,14 @@ class Romberg:
         #print("Thread[%d][%d]inited"%(i,k))
         #print("Value Q[%d][%d]:%f sended"%(i,k,Q[i-1,k]))
         
-      """
-      for k in range(0,i):
-        print("%.4f"%Q[i,k],end =" ")  
-      print()
       
-      for thread in threads:
-        thread.join()
-      """
+    
     for i in range(self.nmax):
-      for k in range(i):
-        print("%.4f"%Q[i,k],end =" ")  
+      for k in range(0,i+1):
+        print("%d %d %.8f"%(i,k,Q[i,k]),end =" ")  
       print()
        
-    #print (Q[-2,0]) 
+     
   def comunication_size(self):
     for i in range(len(self.comunication)):
       print("PE[%d]: %d bytes"%(i+1,self.comunication[i]))
@@ -102,5 +97,5 @@ if __name__ == '__main__':
   a  = 0.0;b = 1.0  # integration interval [a,b]
   R = Romberg(gaussian,a,b,1.0e-12,10)
   R.run()
-  R.comunication_size()
+  #R.comunication_size()
   integrate.romberg(gaussian, a, b, show=True)

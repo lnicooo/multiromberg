@@ -38,27 +38,24 @@ def romberg(f,a,b,eps,nmax):
     for i in range(0,nmax):
         N      = 2**i
         Q[i,0] = trapezoid(f,a,b,N)
+        print("i:%d q:%f"%(i,Q[i,0]))
+        
         for k in range(0,i):
             n        = k + 2
             Q[i,k+1] = 1.0/(4**(n-1)-1)*(4**(n-1)*Q[i,k] - Q[i-1,k])
-            print(Q[i-1,k-1])
-        """
-        if (i > 0) and (abs(Q[i,k+1] - Q[i,k]) < eps):
-            if (abs(Q[i,k+1] - Q[i,k]) < eps):
-               converged = 1
-               break
-        
-        for k in range(0,i):
-          print("%.4f"%Q[i,k],end =" ")  
-        print()
-        """
-    for i in range(nmax):
-      for k in range(i):
-        print("%.4f"%Q[i,k],end =" ")  
+            print("n:%d Q[i]:%f Q[-1]:%f i:%d k:%d"%((n-1),Q[i,k], Q[i-1,k],i,k))
+            #print(Q[i-1,k-1])
+            #print("i:%d k+1:%d q:%.8f"%(i,k+1,Q[i,k+1]))
+    
+    
+    for x in range(0,nmax):
+      for k in range(0,x+1):
+        print("i:%d k:%d %.8f"%(x,k,Q[x,k]),end =" ")  
       print()
 
-    print (Q[i,k+1])
-    return Q[i,k+1],N,converged
+    
+   
+    #return Q[i,k+1],N,converged
 
 # main program
 a  = 0.0;b = 1.0  # integration interval [a,b]
