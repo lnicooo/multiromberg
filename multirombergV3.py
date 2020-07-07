@@ -5,10 +5,11 @@ from threading import Thread, Lock
 from scipy import integrate
 import time
 
-
 mutex = Lock()
 
 gaussian = lambda x: 1/np.sqrt(np.pi) * np.exp(-x**2)
+
+func = lambda x: (np.log(np.exp(x*np.log(x)))/np.log(4)) * np.sin(x) 
 
 class Romberg:
   def __init__ (self,f,a,b,eps,nmax):
@@ -38,23 +39,19 @@ class Romberg:
     return s
 
   def romberg_thread(self,Q,Q_act,Q_lst,i,k):
-
-    #print(Q_lst)
     
     if(k>0):
       q = 1.0/(4**(k)-1) * (4**(k) *Q_act - Q_lst)      
-      print("n:%d Q[i]:%f Q[-1]:%f i:%d k:%d"%(k,Q_act, Q_lst,i,k))
+      #print("n:%d Q[i]:%f Q[-1]:%f i:%d k:%d"%(k,Q_act, Q_lst,i,k))
       
     else:
       N = 2**(i)
       q = self.trapezoid(N)
-      print("i:%d k:%d q:%f"%(i,k,q))
+      #print("i:%d k:%d q:%f"%(i,k,q))
     
     mutex.acquire()
     Q[k] = q
     mutex.release()           
-    
-    #print("k:%d q:%f i:%d"%(k,q,i))  
   
   def run(self):
 
@@ -77,16 +74,14 @@ class Romberg:
 
         thread.start()
         thread.join()
-        #print("Thread[%d][%d]inited"%(i,k))
-        #print("Value Q[%d][%d]:%f sended"%(i,k,Q[i-1,k]))
-        
       
     
     for i in range(self.nmax):
       for k in range(0,i+1):
-        print("%d %d %.8f"%(i,k,Q[i,k]),end =" ")  
+        print("%f"%(Q[i,k]),end =" ")  
       print()
-       
+    
+    print("The final result is %.8f"%Q[-1,-1])
      
   def comunication_size(self):
     for i in range(len(self.comunication)):
@@ -94,8 +89,8 @@ class Romberg:
 
 if __name__ == '__main__':
   # main program
-  a  = 0.0;b = 1.0  # integration interval [a,b]
-  R = Romberg(gaussian,a,b,1.0e-12,10)
+  a  = 0.1;b = 1.0  # integration interval [a,b]
+  R = Romberg(func,a,b,1.0e-12,8)
   R.run()
   #R.comunication_size()
-  integrate.romberg(gaussian, a, b, show=True)
+  integrate.romberg(func, a, b, show=True)
