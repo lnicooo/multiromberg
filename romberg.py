@@ -1,18 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def f1(x):
-   f1 = x**4.0
-   return f1;
-
-def f2(x):
-   f2 = np.exp(-x*x)
-   return f2;
-
-def f3(x):
-   tau   = 1.0e-8
-   f3    = np.where(np.abs(x)<tau,1.0,np.sin(x)/x)
-   return f3;
+func = lambda x: (np.log(np.exp(x*np.log(x)))/np.log(4)) * np.sin(x) 
 
 gaussian = lambda x: 1/np.sqrt(np.pi) * np.exp(-x**2)
 
@@ -43,19 +32,15 @@ def romberg(f,a,b,eps,nmax):
         for k in range(0,i):
             n        = k + 2
             Q[i,k+1] = 1.0/(4**(n-1)-1)*(4**(n-1)*Q[i,k] - Q[i-1,k])
-            print("n:%d Q[i]:%f Q[-1]:%f i:%d k:%d"%((n-1),Q[i,k], Q[i-1,k],i,k))
-            #print(Q[i-1,k-1])
-            #print("i:%d k+1:%d q:%.8f"%(i,k+1,Q[i,k+1]))
-    
-    
+            
     for x in range(0,nmax):
       for k in range(0,x+1):
         print("i:%d k:%d %.8f"%(x,k,Q[x,k]),end =" ")  
       print()
 
-    
+    print("The final result is %.8f"%Q[-1,-1])
    
-    #return Q[i,k+1],N,converged
+    
 
 # main program
 a  = 0.0;b = 1.0  # integration interval [a,b]

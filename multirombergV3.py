@@ -59,8 +59,6 @@ class Romberg:
 
     for i in range(0,self.nmax):
 
-      threads=[]
-
       for k in range(0,i+1):
         if(k>0):
           thread = Thread(target = self.romberg_thread, 
